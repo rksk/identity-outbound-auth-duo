@@ -6557,10 +6557,18 @@ var Duo = {
                 form.insertAfter(iframe);
             }
 
-            form.attr('method', 'POST');
-            form.attr('action', Duo._post_action);
-            form.append(input);
-            form.submit();
+            if (!D('input[name=submitted]').length) {
+
+                var input_submitted = D('<input type="hidden">').attr('name', 'submitted').val('true');
+                form.append(input_submitted);
+
+                form.attr('method', 'POST');
+                form.attr('action', Duo._post_action);
+                form.append(input);
+                form.submit();
+            } else {
+                console.log("Avoided a double submit!");
+            }
         }, 'https://' + Duo._host);
     }
 };
